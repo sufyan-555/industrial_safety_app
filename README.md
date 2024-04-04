@@ -1,1 +1,1 @@
-# industrial_safety_app
+# Industrial_safety_app
