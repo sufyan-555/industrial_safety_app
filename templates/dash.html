@@ -25,10 +25,11 @@
             </div>
             <ul class="sidebar-nav">
                 <li class="sidebar-item">
-                    <form class="form-inline" action="/add_cam_page">
-                        <button type="submit" class="btn btn-outline-light">Add Cam</button>
-                    </form>
-                </li>
+                    <a href="/manage_camera" class="sidebar-link">
+                        <i class="lni lni-camera"></i>
+                        <span>Manage Camera</span>
+                    </a>
+                </li>                
                 <li class="sidebar-item">
                     <a href="/notification" class="sidebar-link">
                         <i class="lni lni-popup"></i>
@@ -37,9 +38,12 @@
                 </li>
             </ul>
             <div class="sidebar-footer">
-                <form class="form-inline" action="/logout">
-                    <button type="submit" class="btn btn-outline-light">Logout</button>
-                </form>
+                <li class="sidebar-item">
+                    <a href="/logout" class="sidebar-link">
+                        <i class="lni lni-exit"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
             </div>
         </aside>
         <div class="main p-3">
