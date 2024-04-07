@@ -51,7 +51,7 @@
                 <div id="live-feeds">
                     {% for cam_id, camera in cameras.items() %}
                         <h2>Camera {{ cam_id }}</h2>
-                        <iframe src="/video_feed/{{ cam_id }}" width="640" height="360"></iframe>
+                        <iframe src="/video_feed/{{ cam_id }}" width="1000" height="500"></iframe>
                     {% endfor %}
                 </div>
             </div>

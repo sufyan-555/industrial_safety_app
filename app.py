@@ -12,19 +12,6 @@ cameras={"0":{
 }}
 
 def process_frames(camid,region,flag_r_zone=False,flag_pose_alert=False,flag_fire=False,flag_gear=False):
-    """
-    function to process frames
-
-    Args:
-    camid: camid given by the user 
-    flag_people: Flag for peolpe_detection 
-    flag_vehicle: Flag for vehicle detection
-    flag_fiere: Flag for fire detection 
-    flag_smoke: Flag for smoke detection
-
-    returns: image object
-
-    """
     if  (len(camid)==1):
         camid=int(camid)
     
@@ -35,7 +22,7 @@ def process_frames(camid,region,flag_r_zone=False,flag_pose_alert=False,flag_fir
         if not ret:
             break
         
-        frame=cv2.resize(frame,(600,300))
+        frame=cv2.resize(frame,(800,400))
         
         frame=cv2.flip(frame,1)
 
@@ -49,15 +36,16 @@ def process_frames(camid,region,flag_r_zone=False,flag_pose_alert=False,flag_fir
 
 
 @app.route('/')
-def dash():
+def dash_page():
     return render_template('dash.html',cameras=cameras)
 
-
-
+@app.route("/manage_camera")
+def manage_cam_page():
+    return render_template('manage_cam.html')
 
 
 @app.route('/video_feed/<int:cam_id>')
-def video_feed(cam_id):
+def video_feed_generator(cam_id):
     camid=str(cam_id)
     flag_r_zone=cameras[camid]["flag_r_zone"]
     flag_pose_alert=cameras[camid]["flag_pose_alert"]
