@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Cameras</title>
+    <link rel="stylesheet" href="/static/manage_cam.css">
+   
+</head>
+<body>
+    <section>
+        <div class="imgBx">
+            <img src="/static/manage_Cam_bg.png">
+        </div>
+        <div class="contentBx">
+                <div class="formBx">
+                    <h2>Camera Details</h2>
+                    <form action="/get_cam_details" method="POST">
+                        <div class="inputBx">
+                            <span>Camera ID</span>
+                            <input type="text" name="Cam_id">
+                        </div>
+                      
+                        <!--div class="form-check">
+                            <input class="form-check-input" type="radio" name="add_cam">
+                            <label class="form-check-label" for="add_cam">
+                              Add Camera
+                            </label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="remove_cam">
+                            <label class="form-check-label" for="remove_cam">
+                              Remove Camera
+                            </label>
+                          </div -->
+                        <br>
+                        <br>
+                        <div class="remember">
+                            <label><input type="checkbox" name="fire">Fire</label>
+                        </div>
+                        <div class="remember">
+                            <label><input type="checkbox" name="pose_alert" >Pose Alert</label>
+                        </div>
+                        <div class="remember">
+                            <label><input type="checkbox" name="R_zone">Restricted Zone</label>
+                        </div>
+                        <div class="remember">
+                            <label><input type="checkbox" name="Safety_gear">Safety gear</label>
+                        </div>
+                        <div class="inputBx">
+                            <input type="submit" value="Submit" name="">
+                        </div>
+                    </form>
+                </div> 
+        </div>
+    </section>
+</body>
+</html>
