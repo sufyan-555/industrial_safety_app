@@ -15,45 +15,40 @@
         <div class="contentBx">
                 <div class="formBx">
                     <h2>Camera Details</h2>
-                    <form>
+                    <form action="/get_cam_details" method="POST">
                         <div class="inputBx">
                             <span>Camera ID</span>
-                            <input type="text" name="">
+                            <input type="text" name="Cam_id">
                         </div>
                       
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                            <label class="form-check-label" for="flexRadioDefault1">
+                        <!--div class="form-check">
+                            <input class="form-check-input" type="radio" name="add_cam">
+                            <label class="form-check-label" for="add_cam">
                               Add Camera
                             </label>
                           </div>
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                            <label class="form-check-label" for="flexRadioDefault2">
+                            <input class="form-check-input" type="radio" name="remove_cam">
+                            <label class="form-check-label" for="remove_cam">
                               Remove Camera
                             </label>
-                          </div>
+                          </div -->
                         <br>
                         <br>
-                    
-                        <!-- <div class="inputBx">
-                            <span>Password</span>
-                            <input type="password" name="">
-                        </div> -->
                         <div class="remember">
-                            <label><input type="checkbox" name=""><br>Fire</label>
+                            <label><input type="checkbox" name="fire">Fire</label>
                         </div>
                         <div class="remember">
-                            <label><input type="checkbox" name=""><br>Pose Alert</label>
+                            <label><input type="checkbox" name="pose_alert" >Pose Alert</label>
                         </div>
                         <div class="remember">
-                            <label><input type="checkbox" name=""><br>Restricted Zone</label>
+                            <label><input type="checkbox" name="R_zone">Restricted Zone</label>
                         </div>
                         <div class="remember">
-                            <label><input type="checkbox" name=""><br>Safety gear</label>
+                            <label><input type="checkbox" name="Safety_gear">Safety gear</label>
                         </div>
                         <div class="inputBx">
-                            <input type="submit" value="Sign in" name="">
+                            <input type="submit" value="Submit" name="">
                         </div>
                     </form>
                 </div> 
