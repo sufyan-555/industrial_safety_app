@@ -1,7 +1,7 @@
 import cv2
 from flask import Flask, render_template, Response,request,redirect
 from models.r_zone import people_detection
-from datetime import datetime
+from datetime import datetime,timedelta
 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -73,8 +73,8 @@ def process_frames(camid,region,flag_r_zone=False,flag_pose_alert=False,flag_fir
 
 @app.route('/')
 def dash_page():
-    #return render_template("index.html")
-    return render_template('dash.html',cameras=cameras)
+    return render_template("index.html")
+    #return render_template('dash.html',cameras=cameras)
 
 @app.route("/manage_camera")
 def manage_cam_page():
