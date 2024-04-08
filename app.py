@@ -44,13 +44,23 @@ def process_frames(camid,region,flag_r_zone=False,flag_pose_alert=False,flag_fir
             for person in results[1]:
                 x1,y1,x2,y2=person[0]
                 cv2.rectangle(frame,(x1,y1),(x2,y2),(0,0,255),2)
+                person_id=person[1]
 
             with app.app_context():
-                alert = Alert(date_time=datetime.now(), 
-                            alert_type='Restricted Zone Alert', 
-                            frame_snapshot=cv2.imencode('.jpg', frame)[1].tobytes())
-                db.session.add(alert)
-                db.session.commit()
+                existing_person = Alert.query.filter_by(person_id=person_id).first()
+
+                if not existing_person:
+                    alert = Alert(date_time=datetime.now(), 
+                                  alert_type='Restricted Zone Alert', 
+                                  frame_snapshot=cv2.imencode('.jpg', frame)[1].tobytes()) 
+                    db.session.add(alert)
+                    db.session.commit()
+                elif((datetime.now() - existing_person.date_time)>timedelta(minutes=5)):
+                    alert = Alert(date_time=datetime.now(), 
+                                    alert_type='Restricted Zone Alert', 
+                                    frame_snapshot=cv2.imencode('.jpg', frame)[1].tobytes())
+                    db.session.add(alert)
+                    db.session.commit()
 
 
         _, buffer = cv2.imencode('.jpg', frame)
