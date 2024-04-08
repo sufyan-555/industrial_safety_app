@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications</title>
+</head>
+<body>
+    <h1>Notifications</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Date Time</th>
+                <th>Alert Type</th>
+                <th>Frame Snapshot</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alert in alerts %}
+                <tr>
+                    <td>{{ alert.date_time }}</td>
+                    <td>{{ alert.alert_type }}</td>
+                    <td><img src="data:image/jpeg;base64,{{ alert.frame_snapshot }}" alt="Frame Snapshot" width="200"></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

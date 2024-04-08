@@ -34,7 +34,7 @@
         <ul>
           <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
           <li><a class="nav-link scrollto" href="#services">Features</a></li>
-          <li><a class="getstarted scrollto" href="#about">Login</a></li>
+          <li><a class="getstarted scrollto" href="/login">Login</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -73,40 +73,32 @@
             <h1 class="text-center mb-4">Raise Your Complain</h1>
             <div class="row justify-content-center">
               <div class="col-md-6">
-                <form>
+                <form action="/submit_complaint" method="post" enctype="multipart/form-data">
                   <div class="form-group">
                     <label for="fullName">Full Name</label>
-                    <input type="text" class="form-control" id="fullName" placeholder="Enter your full name">
+                    <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Enter your full name">
                   </div>
                   <div class="form-group">
                     <label for="email">Email address</label>
-                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                    <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email">
                   </div>
                   <div class="form-group">
-                    <label for="exampleFormControlSelect1">Select the alert!</label>
-                    <select class="form-control" id="exampleFormControlSelect1">
-                      <option>Report an Alert</option>
-                      <option>Normal Complaint</option>
-                      <option>Harassment reporting</option>
-    
+                    <label for="alertType">Select the alert type</label>
+                    <select class="form-control" id="alertType" name="alertType">
+                      <option value="Report an Alert">Report an Alert</option>
+                      <option value="Normal Complaint">Normal Complaint</option>
+                      <option value="Harassment reporting">Harassment reporting</option>
                     </select>
                   </div>
                   <div class="form-group">
-                      <label for="exampleFormControlTextarea1">Elaborate your Concern-</label>
-                      <textarea class="form-control" id="exampleFormControlTextarea2" rows="3" placeholder="Share your Concern"></textarea>
-                    </div>
-                    <br>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" id="inputGroupFileAddon01">Upload file</span>
-                        </div>
-                        <div class="custom-file">
-                          <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                          <label class="custom-file-label" for="inputGroupFile01"></label>
-                        </div>
-                      </div>
-             
-                  <button type="submit" class="btn btn-success">Submit</button>
+                    <label for="description">Elaborate your Concern</label>
+                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Share your Concern"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="file">Upload file</label>
+                    <input type="file" class="form-control-file" id="file" name="file">
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
               </div>
             </div>
