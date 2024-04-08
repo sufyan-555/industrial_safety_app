@@ -1,9 +1,14 @@
 import cv2
 from flask import Flask, render_template, Response,request,redirect
+from models.r_zone import people_detection
 
 app = Flask(__name__)
 
 cameras={}
+
+r_zone=people_detection("/models/yolov8n.pt")
+
+
 
 def process_frames(camid,region,flag_r_zone=False,flag_pose_alert=False,flag_fire=False,flag_gear=False):
     if  (len(camid)==1):
@@ -20,6 +25,13 @@ def process_frames(camid,region,flag_r_zone=False,flag_pose_alert=False,flag_fir
         
         frame=cv2.flip(frame,1)
 
+        # frame processing for restricted Zone
+        results=r_zone.process(img=frame,region=region,flag=flag_r_zone)
+        if results[0]:
+            for person in results[1]:
+                x1,y1,x2,y2=person[0]
+                cv2.rectangle(frame,(x1,y1),(x2,y2),(0,0,255),2)
+
 
         _, buffer = cv2.imencode('.jpg', frame)
         frame_bytes = buffer.tobytes()
@@ -31,6 +43,7 @@ def process_frames(camid,region,flag_r_zone=False,flag_pose_alert=False,flag_fir
 
 @app.route('/')
 def dash_page():
+    #return render_template("index.html")
     return render_template('dash.html',cameras=cameras)
 
 @app.route("/manage_camera")
@@ -66,7 +79,7 @@ def getting_cam_details():
         "pose": pose_bool,
         "r_region": r_bool,
         "gear": s_gear_bool,
-        "region": []
+        "region": False
     }
         
     return redirect("/")
