@@ -1,8 +1,20 @@
 import cv2
 from flask import Flask, render_template, Response,request,redirect
 from models.r_zone import people_detection
+from datetime import datetime
+
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///alerts.db'
+db = SQLAlchemy(app)
+
+
+class Alert(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date_time = db.Column(db.DateTime)
+    alert_type = db.Column(db.String(50))
+    frame_snapshot = db.Column(db.LargeBinary)
 
 cameras={}
 
@@ -16,6 +28,7 @@ def process_frames(camid,region,flag_r_zone=False,flag_pose_alert=False,flag_fir
     
     cap=cv2.VideoCapture(camid)
     ret=True
+    
     while(True):
         ret,frame=cap.read()
         if not ret:
@@ -31,6 +44,13 @@ def process_frames(camid,region,flag_r_zone=False,flag_pose_alert=False,flag_fir
             for person in results[1]:
                 x1,y1,x2,y2=person[0]
                 cv2.rectangle(frame,(x1,y1),(x2,y2),(0,0,255),2)
+
+            with app.app_context():
+                alert = Alert(date_time=datetime.now(), 
+                            alert_type='Restricted Zone Alert', 
+                            frame_snapshot=cv2.imencode('.jpg', frame)[1].tobytes())
+                db.session.add(alert)
+                db.session.commit()
 
 
         _, buffer = cv2.imencode('.jpg', frame)
