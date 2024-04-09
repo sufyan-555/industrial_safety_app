@@ -139,6 +139,15 @@ def notifications():
         alert.frame_snapshot = base64.b64encode(alert.frame_snapshot).decode('utf-8')
     return render_template('notifications.html', alerts=alerts)
 
+@app.route('/complaints')
+def complaints():
+    complaints = Complaint.query.all()
+    for complaint in complaints:
+        if complaint.file_data:
+            # Convert binary file data to base64 for displaying in HTML
+            complaint.file_data = base64.b64encode(complaint.file_data).decode('utf-8')
+    return render_template('complaints.html', complaints=complaints)
+
 
 
 @app.route('/video_feed/<int:cam_id>')
