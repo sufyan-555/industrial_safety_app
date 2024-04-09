@@ -1,4 +1,5 @@
 import cv2
+import base64
 from flask import Flask, render_template, Response,request,redirect
 from models.r_zone import people_detection
 from datetime import datetime,timedelta
@@ -134,6 +135,8 @@ def getting_cam_details():
 @app.route('/notifications')
 def notifications():
     alerts = Alert.query.all()
+    for alert in alerts:
+        alert.frame_snapshot = base64.b64encode(alert.frame_snapshot).decode('utf-8')
     return render_template('notifications.html', alerts=alerts)
 
 

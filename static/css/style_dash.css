@@ -29,14 +29,19 @@ body {
 }
 
 .main {
+    padding-left: 260px; /* Adjust this value to ensure content isn't covered by the sidebar */
     min-height: 100vh;
     width: 100%;
-    overflow: hidden;
+    overflow-y: auto; /* Add this to allow vertical scrolling if needed */
     transition: all 0.35s ease-in-out;
     background-color: #fafbfe;
 }
 
 #sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0; /* Adjust this if you want the sidebar to end at a different point */
     width: 70px;
     min-width: 70px;
     z-index: 1000;
@@ -44,7 +49,9 @@ body {
     background-color: #0e2238;
     display: flex;
     flex-direction: column;
+    overflow-y: auto; /* Add this to allow vertical scrolling if needed */
 }
+
 
 #sidebar.expand {
     width: 260px;
