@@ -14,8 +14,8 @@ db = SQLAlchemy(app)
 
 
 class Alert(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    date_time = db.Column(db.DateTime)
+    id = db.Column(db.Integer)
+    date_time = db.Column(db.DateTime,primary_key=True)
     alert_type = db.Column(db.String(50))
     frame_snapshot = db.Column(db.LargeBinary)
 
@@ -53,13 +53,11 @@ def process_frames(camid,region,flag_r_zone=False,flag_pose_alert=False,flag_fir
 
         # frame processing for restricted Zone
         results=r_zone.process(img=frame,region=region,flag=flag_r_zone)
-        print("ifaubbbbbbbbb")
         if results[0]:
             for person in results[1]:
                 x1,y1,x2,y2=person[0]
                 cv2.rectangle(frame,(x1,y1),(x2,y2),(0,0,255),2)
                 person_id=int(person[1])
-            print("=============================")
             with app.app_context():
                 existing_person = Alert.query.filter_by(id=person_id).first()
 
@@ -77,7 +75,7 @@ def process_frames(camid,region,flag_r_zone=False,flag_pose_alert=False,flag_fir
                     db.session.add(alert)
                     db.session.commit()
 
-            print("======-----------------------")
+                    
         _, buffer = cv2.imencode('.jpg', frame)
         frame_bytes = buffer.tobytes()
         yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
