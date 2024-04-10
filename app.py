@@ -57,22 +57,14 @@ def process_frames(camid,region,flag_r_zone=False,flag_pose_alert=False,flag_fir
             for person in results[1]:
                 x1,y1,x2,y2=person[0]
                 cv2.rectangle(frame,(x1,y1),(x2,y2),(0,0,255),2)
-                person_id=int(person[1])
-            with app.app_context():
-                existing_person = Alert.query.filter_by(id=person_id).first()
 
-                if not existing_person:
-                    alert = Alert(date_time=datetime.now(), 
-                                  alert_type='Restricted Zone Alert', 
-                                  frame_snapshot=cv2.imencode('.jpg', frame)[1].tobytes()) 
-                    db.session.add(alert)
-                    db.session.commit()
-                elif((datetime.now() - existing_person.date_time)>timedelta(minutes=1)):
-                    alert = Alert(date_time=datetime.now(), 
-                                    alert_type='Restricted Zone Alert', 
-                                    frame_snapshot=cv2.imencode('.jpg', frame)[1].tobytes(),
-                                    id=person_id)
-                    db.session.add(alert)
+            with app.app_context():
+                latest_alert = Alert.query.filter_by(alert_type='restricted_zone').order_by(Alert.date_time.desc()).first()
+
+                if ((latest_alert is None) or ((datetime.now() - latest_alert.date_time) > timedelta(minutes=1))):
+                    new_alert = Alert(date_time=datetime.now(), alert_type='restricted_zone', 
+                                      frame_snapshot=cv2.imencode('.jpg', frame)[1].tobytes())
+                    db.session.add(new_alert)
                     db.session.commit()
 
                     
