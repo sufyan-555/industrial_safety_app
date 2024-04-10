@@ -99,6 +99,7 @@ def submit_complaint():
         alert_type = request.form['alertType']
         description = request.form['description']
         file_data = request.files['file'].read() if 'file' in request.files else None
+      
 
         complaint = Complaint(full_name=full_name, email=email, alert_type=alert_type, description=description, file_data=file_data)
         db.session.add(complaint)
@@ -154,6 +155,16 @@ def complaints():
 
 
 
+@app.route('/delete/<int:id>')
+def delete(id):
+    complaint=Complaint.query.filter_by(id=id).first()
+    db.session.delete(complaint)
+    db.session.commit()
+    return redirect("/complaints")
+
+
+
+
 @app.route('/video_feed/<int:cam_id>')
 def video_feed_generator(cam_id):
     camid=str(cam_id)
@@ -173,5 +184,5 @@ def logout():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True,port=8000)
 

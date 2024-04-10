@@ -21,19 +21,32 @@
         <!--Add your code here-->
             <div class="container">
                 <h2>All Complaints</h2>
+
+
+                {% if complaints|length==0 %}
+
+                <div class="alert alert-dark" role="alert">
+                        No complaints are there Chill Karo!
+                </div>
+       
+                {% else %}
+
                 <table class="table table-image">
                     <thead>
                         <tr>
+                            <th scope="col">Sno.</th>
                             <th scope="col">Full Name</th>
                             <th scope="col">Email</th>
                             <th scope="col">Alert Type</th>
                             <th scope="col">Description</th>
                             <th scope="col">File</th>
+                            <th scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for complaint in complaints %}
                         <tr>
+                            <th scope="row">{{loop.index}}</th>
                             <td>{{ complaint.full_name }}</td>
                             <td>{{ complaint.email }}</td>
                             <td>{{ complaint.alert_type }}</td>
@@ -45,8 +58,13 @@
                                 No File Attached
                                 {% endif %}
                             </td>
+                            <td>
+                                <a href="/delete/{{complaint.id}}" type="button" class="btn btn-outline-dark btn-sm mx-1">Delete</button>
+                            </td>
+                            
                         </tr>
                         {% endfor %}
+                        {% endif %}
                     </tbody>
                 </table>
             </div>
