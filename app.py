@@ -8,9 +8,19 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///alerts.db'
-app.config["SQLALCHEMY_BINDS"]={"complain":"sqlite:///complain.db"}
+app.config["SQLALCHEMY_BINDS"]={"complain":"sqlite:///complain.db",
+                                "cams":"sqlite:///cams.db"}
 
 db = SQLAlchemy(app)
+
+class Camera(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    cam_id = db.Column(db.String(100))
+    fire_detection = db.Column(db.Boolean, default=False)
+    pose_alert = db.Column(db.Boolean, default=False)
+    restricted_zone = db.Column(db.Boolean, default=False)
+    safety_gear_detection = db.Column(db.Boolean, default=False)
+    region = db.Column(db.Boolean, default=False)
 
 
 class Alert(db.Model):
@@ -18,8 +28,6 @@ class Alert(db.Model):
     date_time = db.Column(db.DateTime,primary_key=True)
     alert_type = db.Column(db.String(50))
     frame_snapshot = db.Column(db.LargeBinary)
-
-## deal with unique key and personid key
 
 class Complaint(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -29,7 +37,6 @@ class Complaint(db.Model):
     description = db.Column(db.Text)
     file_data = db.Column(db.LargeBinary)
 
-cameras={}
 
 r_zone=people_detection("/models/yolov8n.pt")
 
@@ -100,11 +107,15 @@ def submit_complaint():
 
 @app.route('/dashboard')
 def dash_page():
+    cameras = Camera.query.all()
+    print(cameras)
     return render_template('dash.html',cameras=cameras)
 
 @app.route("/manage_camera")
 def manage_cam_page():
-    return render_template('manage_cam.html')
+    cameras = Camera.query.all()
+    return render_template('manage_cam.html', cameras=cameras)
+
 
 @app.route("/get_cam_details",methods=['GET','POST'])
 def getting_cam_details():
@@ -116,15 +127,24 @@ def getting_cam_details():
         r_bool= "R_zone" in request.form
         s_gear_bool= "Safety_gear" in request.form
 
-    cameras[camid]={
-        "fire": fire_bool,
-        "pose": pose_bool,
-        "r_region": r_bool,
-        "gear": s_gear_bool,
-        "region": False
-    }
-        
-    return redirect("/dashboard")
+        # Check if the camera details already exist in the database
+        camera = Camera.query.filter_by(cam_id=camid).first()
+
+        if camera:
+            # Update existing camera details
+            camera.fire_detection = fire_bool
+            camera.pose_alert = pose_bool
+            camera.restricted_zone = r_bool
+            camera.safety_gear_detection = s_gear_bool
+        else:
+            # Create a new camera entry
+            camera = Camera(cam_id=camid, fire_detection=fire_bool, pose_alert=pose_bool,
+                            restricted_zone=r_bool, safety_gear_detection=s_gear_bool)
+
+        # Commit changes to the database
+        db.session.add(camera)
+        db.session.commit()
+    return redirect("/manage_camera")
 
 
 @app.route('/notifications')
@@ -153,7 +173,6 @@ def delete(id):
     return redirect("/complaints")
 
 
-
 @app.route('/delete_notification/<int:id>')
 def delete_notification(id):
     alert=Alert.query.filter_by(id=id).first()
@@ -165,15 +184,24 @@ def delete_notification(id):
 
 @app.route('/video_feed/<int:cam_id>')
 def video_feed_generator(cam_id):
-    camid=str(cam_id)
-    flag_r_zone=cameras[camid]["r_region"]
-    flag_pose_alert=cameras[camid]["pose"]
-    flag_fire=cameras[camid]["fire"]
-    flag_gear=cameras[camid]["gear"]
-    region=cameras[camid]["region"]
+    print(str(cam_id)+"===================================")
+    camera = Camera.query.filter_by(cam_id=str(cam_id)).first()
+    print(camera)
 
-    return Response(process_frames(camid,region,flag_r_zone,flag_pose_alert,
-                                   flag_fire,flag_gear), mimetype='multipart/x-mixed-replace; boundary=frame')
+    if camera:
+        flag_r_zone = camera.restricted_zone
+        flag_pose_alert = camera.pose_alert
+        flag_fire = camera.fire_detection
+        flag_gear = camera.safety_gear_detection
+        region = camera.region
+        
+        try:
+            return Response(process_frames(str(cam_id), region, flag_r_zone, flag_pose_alert,
+                                       flag_fire, flag_gear), mimetype='multipart/x-mixed-replace; boundary=frame')
+        except:
+            return "Something wrong with Cam Details !!"
+    else:
+        return "Camera details not found."
 
 
 @app.route('/logout')
