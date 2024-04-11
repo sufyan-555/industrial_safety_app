@@ -21,8 +21,17 @@
         {% include 'sidebar.html' %}
         <div class="container">
           <h1>Notification</h1>
+
+          {% if alerts|length==0 %}
+
+          <div class="alert alert-dark" role="alert">
+                  No Alerts are there Chill Karo!
+          </div>
+ 
+          {% else %}
             <div class="row">
               <div class="col-12">
+
                 <table class="table table-image">
                   <thead>
                     <tr>
@@ -31,6 +40,7 @@
                       <th scope="col">Alert Type</th>
                       <th scope="col">Date</th>
                       <th scope="col">Time</th>
+                      <th scope="col">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -43,8 +53,12 @@
                       <td>{{ alert.alert_type }}</td>
                       <td>{{ alert.date_time.strftime('%Y-%m-%d') }}</td>
                       <td>{{ alert.date_time.strftime('%H:%M:%S') }}</td>
+                      <td>
+                        <a href="/delete_notification/{{alert.id}}" type="button" class="btn btn-outline-dark btn-sm mx-1">Delete</button>
+                    </td>
                     </tr>
                     {% endfor %}
+                    {% endif %}
                   </tbody>
                 </table>
               </div>

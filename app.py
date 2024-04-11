@@ -154,6 +154,14 @@ def delete(id):
 
 
 
+@app.route('/delete_notification/<int:id>')
+def delete_notification(id):
+    alert=Alert.query.filter_by(id=id).first()
+    db.session.delete(alert)
+    db.session.commit()
+    return redirect("/notifications")
+
+
 
 @app.route('/video_feed/<int:cam_id>')
 def video_feed_generator(cam_id):
