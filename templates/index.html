@@ -10,10 +10,12 @@
   <meta content="" name="keywords">
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  
+
   <link href="/static/css/style1.css" rel="stylesheet">
   <link href="/static/css/style2.css" rel="stylesheet">
 
@@ -49,9 +51,13 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
+        <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
+          data-aos="fade-up" data-aos-delay="200">
           <h1>Revolutionizing Industrial Safety</h1>
           <h2>with a cutting-edge solution to establish a safer and secure industrial environment.<br><br><br></h2>
+          <div class="d-flex justify-content-center justify-content-lg-start">
+            <a href="#upload" class="btn-get-started scrollto">Ampilify Motion</a>
+          </div>
           <div class="d-flex justify-content-center justify-content-lg-start">
             <a href="#formpart" class="btn-get-started scrollto">Raise Complain</a>
           </div>
@@ -66,124 +72,132 @@
 
   <main id="main">
 
+    <!--Form Part started -->
+    
 
 
+      <!--Form Part started -->
+      <section id="formpart" class="formpart">
+        <div class="container mt-5">
+          <h1 class="text-center mb-4">Raise Your Complain</h1>
+          <div class="row justify-content-center">
+            <div class="col-md-6">
+              <form action="/submit_complaint" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                  <label for="fullName">Full Name</label>
+                  <input type="text" class="form-control" id="fullName" name="fullName"
+                    placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                  <label for="email">Email address</label>
+                  <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
+                    placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                  <label for="alertType">Select the alert type</label>
+                  <select class="form-control" id="alertType" name="alertType">
+                    <option value="Report an Alert">Report an Alert</option>
+                    <option value="Normal Complaint">Normal Complaint</option>
+                    <option value="Harassment reporting">Harassment reporting</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="description">Elaborate your Concern</label>
+                  <textarea class="form-control" id="description" name="description" rows="3"
+                    placeholder="Share your Concern"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="file">Upload file</label>
+                  <input type="file" class="form-control-file" id="file" name="file">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
 
-         <!--Form Part started -->
-         <section id="formpart" class="formpart">
-          <div class="container mt-5">
-            <h1 class="text-center mb-4">Raise Your Complain</h1>
-            <div class="row justify-content-center">
-              <div class="col-md-6">
-                <form action="/submit_complaint" method="post" enctype="multipart/form-data">
-                  <div class="form-group">
-                    <label for="fullName">Full Name</label>
-                    <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Enter your full name">
-                  </div>
-                  <div class="form-group">
-                    <label for="email">Email address</label>
-                    <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email">
-                  </div>
-                  <div class="form-group">
-                    <label for="alertType">Select the alert type</label>
-                    <select class="form-control" id="alertType" name="alertType">
-                      <option value="Report an Alert">Report an Alert</option>
-                      <option value="Normal Complaint">Normal Complaint</option>
-                      <option value="Harassment reporting">Harassment reporting</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="description">Elaborate your Concern</label>
-                    <textarea class="form-control" id="description" name="description" rows="3" placeholder="Share your Concern"></textarea>
-                  </div>
-                  <div class="form-group">
-                    <label for="file">Upload file</label>
-                    <input type="file" class="form-control-file" id="file" name="file">
-                  </div>
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+
+      <!--Form Part ended-->
+
+
+      <!-- ======= Services Section ======= -->
+      <section id="services" class="services section-bg">
+        <div class="container" data-aos="fade-up">
+
+          <div class="section-title">
+            <h2>Key Features</h2>
+            <p>Industrial workspace possesses risk to machinery and people. Our project aims to
+              reduce these risks by developing a web based application that leverages a cutting
+              edge solution to help establish a safer and secure industrial environment</p>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-3 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+              <div class="icon-box">
+                <div class="icon"><i class="bx bxl-dribbble"></i></div>
+                <h4><a href="">Motion Amplification</a></h4>
+                <p>During equipment inspection, a video of the working
+                  machine can be processed by this tool.</p>
               </div>
             </div>
-          </div>
-         </section>
-       
 
-  <!--Form Part ended-->
-
-
-    <!-- ======= Services Section ======= -->
-    <section id="services" class="services section-bg">
-      <div class="container" data-aos="fade-up">
-
-        <div class="section-title">
-          <h2>Key Features</h2>
-          <p>Industrial workspace possesses risk to machinery and people. Our project aims to 
-            reduce these risks by developing a web based application that leverages a cutting 
-            edge solution to help establish a safer and secure industrial environment</p>
-        </div>
-
-        <div class="row">
-          <div class="col-xl-3 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
-            <div class="icon-box">
-              <div class="icon"><i class="bx bxl-dribbble"></i></div>
-              <h4><a href="">Motion Amplification</a></h4>
-              <p>During equipment inspection, a video of the working 
-                machine can be processed by this tool.</p>
+            <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in"
+              data-aos-delay="200">
+              <div class="icon-box">
+                <div class="icon"><i class="bx bx-file"></i></div>
+                <h4><a href="">Emergency Alert</a></h4>
+                <p>In case of an emergency, the person in the scene can reach
+                  the nearest camera and wave to raise an alert.</p>
+              </div>
             </div>
-          </div>
 
-          <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="200">
-            <div class="icon-box">
-              <div class="icon"><i class="bx bx-file"></i></div>
-              <h4><a href="">Emergency Alert</a></h4>
-              <p>In case of an emergency, the person in the scene can reach 
-                the nearest camera and wave to raise an alert.</p>
+            <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0" data-aos="zoom-in"
+              data-aos-delay="300">
+              <div class="icon-box">
+                <div class="icon"><i class="bx bx-tachometer"></i></div>
+                <h4><a href=""> Restricted Zone</a></h4>
+                <p>Using the live feeds from CCTV cameras we can
+                  raise alert if someone is found in restricted zone.</p>
+              </div>
             </div>
-          </div>
 
-          <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0" data-aos="zoom-in" data-aos-delay="300">
-            <div class="icon-box">
-              <div class="icon"><i class="bx bx-tachometer"></i></div>
-              <h4><a href=""> Restricted Zone</a></h4>
-              <p>Using the live feeds from CCTV cameras we can 
-                raise alert if someone is found in restricted zone.</p>
+            <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0" data-aos="zoom-in"
+              data-aos-delay="400">
+              <div class="icon-box">
+                <div class="icon"><i class="bx bx-layer"></i></div>
+                <h4><a href="">Safety gear Detection</a></h4>
+                <p>It is very important to have a safe working
+                  condition, and Safety Gear is most important for that</p>
+              </div>
             </div>
-          </div>
 
-          <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0" data-aos="zoom-in" data-aos-delay="400">
-            <div class="icon-box">
-              <div class="icon"><i class="bx bx-layer"></i></div>
-              <h4><a href="">Safety gear Detection</a></h4>
-              <p>It is very important to have a safe working 
-                condition, and Safety Gear is most important for that</p>
-            </div>
           </div>
 
         </div>
-
-      </div>
-    </section><!-- End Services Section -->
+      </section><!-- End Services Section -->
 
 
 
 
 
-  <!-- ======= Footer ======= -->
-  <footer id="footer">
+      <!-- ======= Footer ======= -->
+      <footer id="footer">
 
-    <div class="container footer-bottom clearfix">
-      <div class="copyright">
-        &copy; Copyright <strong><span>IndustryXpert</span></strong>
-      </div>
-    </div>
-  </footer><!-- End Footer -->
+        <div class="container footer-bottom clearfix">
+          <div class="copyright">
+            &copy; Copyright <strong><span>IndustryXpert</span></strong>
+          </div>
+        </div>
+      </footer><!-- End Footer -->
 
-  <div id="preloader"></div>
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+      <div id="preloader"></div>
+      <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+          class="bi bi-arrow-up-short"></i></a>
 
 
-  <!-- Template Main JS File -->
-  <script src="/static/js/main.js"></script>
+      <!-- Template Main JS File -->
+      <script src="/static/js/main.js"></script>
 
 </body>
 
