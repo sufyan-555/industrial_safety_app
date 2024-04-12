@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 from models.r_zone import people_detection
 from models.fire_detection import fire_detection
+from models.gear_detection import gear_detection
 
 
 app = Flask(__name__)
@@ -42,6 +43,7 @@ class Complaint(db.Model):
 
 r_zone=people_detection("models/yolov8n.pt")
 fire_det=fire_detection("models\\fire.pt",conf=0.5)
+gear_det=gear_detection("models/gear.pt")
 
 
 
@@ -91,7 +93,26 @@ def process_frames(camid,region,flag_r_zone=False,flag_pose_alert=False,flag_fir
                                       frame_snapshot=cv2.imencode('.jpg', frame)[1].tobytes())
                     db.session.add(new_alert)
                     db.session.commit()
-                    
+
+
+        #gear detection
+        results=gear_det.process(img=frame,flag=flag_gear)
+        if results[0]:
+            for gear in results[1]:
+                x1,y1,x2,y2=gear
+                cv2.rectangle(frame,(x1,y1),(x2,y2),(0,0,255),2)
+
+            with app.app_context():
+                latest_alert = Alert.query.filter_by(alert_type='gear_detection').order_by(Alert.date_time.desc()).first()
+
+                if ((latest_alert is None) or ((datetime.now() - latest_alert.date_time) > timedelta(minutes=1))):
+                    new_alert = Alert(date_time=datetime.now(), alert_type='gear_detection', 
+                                      frame_snapshot=cv2.imencode('.jpg', frame)[1].tobytes())
+                    db.session.add(new_alert)
+                    db.session.commit()
+
+
+
         _, buffer = cv2.imencode('.jpg', frame)
         frame_bytes = buffer.tobytes()
         yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
