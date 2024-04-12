@@ -9,6 +9,7 @@ from models.fire_detection import fire_detection
 from models.gear_detection import gear_detection
 
 
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///alerts.db'
 app.config["SQLALCHEMY_BINDS"]={"complain":"sqlite:///complain.db",
@@ -24,7 +25,6 @@ class Camera(db.Model):
     restricted_zone = db.Column(db.Boolean, default=False)
     safety_gear_detection = db.Column(db.Boolean, default=False)
     region = db.Column(db.Boolean, default=False)
-
 
 class Alert(db.Model):
     id = db.Column(db.Integer)
@@ -42,9 +42,23 @@ class Complaint(db.Model):
 
 
 r_zone=people_detection("models/yolov8n.pt")
-fire_det=fire_detection("models\\fire.pt",conf=0.5)
+fire_det=fire_detection("models/fire.pt",conf=0.5)
 gear_det=gear_detection("models/gear.pt")
 
+def add_to_db(results,frame,alert_name):
+    if results[0]:
+        for box in results[1]:
+            x1,y1,x2,y2=box
+            cv2.rectangle(frame,(x1,y1),(x2,y2),(0,0,255),2)
+
+        with app.app_context():
+            latest_alert = Alert.query.filter_by(alert_type=alert_name).order_by(Alert.date_time.desc()).first()
+
+            if ((latest_alert is None) or ((datetime.now() - latest_alert.date_time) > timedelta(minutes=1))):
+                new_alert = Alert(date_time=datetime.now(), alert_type=alert_name, 
+                                    frame_snapshot=cv2.imencode('.jpg', frame)[1].tobytes())
+                db.session.add(new_alert)
+                db.session.commit()
 
 
 def process_frames(camid,region,flag_r_zone=False,flag_pose_alert=False,flag_fire=False,flag_gear=False):
@@ -63,54 +77,15 @@ def process_frames(camid,region,flag_r_zone=False,flag_pose_alert=False,flag_fir
 
         # frame processing for restricted Zone
         results=r_zone.process(img=frame,region=region,flag=flag_r_zone)
-        if results[0]:
-            for person in results[1]:
-                x1,y1,x2,y2=person[0]
-                cv2.rectangle(frame,(x1,y1),(x2,y2),(0,0,255),2)
-
-            with app.app_context():
-                latest_alert = Alert.query.filter_by(alert_type='restricted_zone').order_by(Alert.date_time.desc()).first()
-
-                if ((latest_alert is None) or ((datetime.now() - latest_alert.date_time) > timedelta(minutes=1))):
-                    new_alert = Alert(date_time=datetime.now(), alert_type='restricted_zone', 
-                                      frame_snapshot=cv2.imencode('.jpg', frame)[1].tobytes())
-                    db.session.add(new_alert)
-                    db.session.commit()
-
+        add_to_db(results=results,frame=frame,alert_name="restricted_zone")
 
         #fire detection
         results=fire_det.process(img=frame,flag=flag_fire)
-        if results[0]:
-            for fire in results[1]:
-                x1,y1,x2,y2=fire
-                cv2.rectangle(frame,(x1,y1),(x2,y2),(0,0,255),2)
-
-            with app.app_context():
-                latest_alert = Alert.query.filter_by(alert_type='fire_detection').order_by(Alert.date_time.desc()).first()
-
-                if ((latest_alert is None) or ((datetime.now() - latest_alert.date_time) > timedelta(minutes=1))):
-                    new_alert = Alert(date_time=datetime.now(), alert_type='fire_detection', 
-                                      frame_snapshot=cv2.imencode('.jpg', frame)[1].tobytes())
-                    db.session.add(new_alert)
-                    db.session.commit()
-
+        add_to_db(results=results,frame=frame,alert_name="fire_detection")
 
         #gear detection
         results=gear_det.process(img=frame,flag=flag_gear)
-        if results[0]:
-            for gear in results[1]:
-                x1,y1,x2,y2=gear
-                cv2.rectangle(frame,(x1,y1),(x2,y2),(0,0,255),2)
-
-            with app.app_context():
-                latest_alert = Alert.query.filter_by(alert_type='gear_detection').order_by(Alert.date_time.desc()).first()
-
-                if ((latest_alert is None) or ((datetime.now() - latest_alert.date_time) > timedelta(minutes=1))):
-                    new_alert = Alert(date_time=datetime.now(), alert_type='gear_detection', 
-                                      frame_snapshot=cv2.imencode('.jpg', frame)[1].tobytes())
-                    db.session.add(new_alert)
-                    db.session.commit()
-
+        add_to_db(results=results,frame=frame,alert_name="gear_detection")
 
 
         _, buffer = cv2.imencode('.jpg', frame)
@@ -153,7 +128,6 @@ def dash_page():
 def manage_cam_page():
     cameras = Camera.query.all()
     return render_template('manage_cam.html', cameras=cameras)
-
 
 @app.route("/get_cam_details",methods=['GET','POST'])
 def getting_cam_details():
@@ -201,15 +175,12 @@ def complaints():
             complaint.file_data = base64.b64encode(complaint.file_data).decode('utf-8')
     return render_template('complaints.html', complaints=complaints)
 
-
-
 @app.route('/delete/<int:id>')
 def delete(id):
     complaint=Complaint.query.filter_by(id=id).first()
     db.session.delete(complaint)
     db.session.commit()
     return redirect("/complaints")
-
 
 @app.route('/delete_notification/<int:id>')
 def delete_notification(id):
@@ -218,14 +189,9 @@ def delete_notification(id):
     db.session.commit()
     return redirect("/notifications")
 
-
-
 @app.route('/video_feed/<int:cam_id>')
 def video_feed_generator(cam_id):
-    print(str(cam_id)+"===================================")
     camera = Camera.query.filter_by(cam_id=str(cam_id)).first()
-    print(camera)
-
     if camera:
         flag_r_zone = camera.restricted_zone
         flag_pose_alert = camera.pose_alert

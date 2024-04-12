@@ -74,15 +74,9 @@ class people_detection():
                     center=[(bb[0]+bb[2])//2,(bb[1]+bb[3])//2]
 
                     if(self.in_region(center)):
-                        try:
-                            bb_boxes.append([bb,box.id[0]])
-                        except:
-                            bb_boxes.append([bb,123456])
+                        bb_boxes.append(bb)
                 else:
-                    try:
-                        bb_boxes.append([bb,box.id[0]])
-                    except:
-                        bb_boxes.append([bb,123456])
+                    bb_boxes.append(bb)
         
         if(len(bb_boxes)):
             found=True
