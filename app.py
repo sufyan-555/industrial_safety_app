@@ -17,7 +17,7 @@ app.config["SQLALCHEMY_BINDS"]={"complain":"sqlite:///complain.db",
 
 db = SQLAlchemy(app)
 
-class Camera(db.Model):
+class Camera(db.Model):                 #Database Camera
     id = db.Column(db.Integer, primary_key=True)
     cam_id = db.Column(db.String(100))
     fire_detection = db.Column(db.Boolean, default=False)
@@ -26,13 +26,13 @@ class Camera(db.Model):
     safety_gear_detection = db.Column(db.Boolean, default=False)
     region = db.Column(db.Boolean, default=False)
 
-class Alert(db.Model):
+class Alert(db.Model):                  #Database alert/notifications
     id = db.Column(db.Integer)
     date_time = db.Column(db.DateTime,primary_key=True)
     alert_type = db.Column(db.String(50))
     frame_snapshot = db.Column(db.LargeBinary)
 
-class Complaint(db.Model):
+class Complaint(db.Model):              #Database Complaints
     id = db.Column(db.Integer, primary_key=True)
     full_name = db.Column(db.String(100))
     email = db.Column(db.String(100))
@@ -175,19 +175,26 @@ def complaints():
             complaint.file_data = base64.b64encode(complaint.file_data).decode('utf-8')
     return render_template('complaints.html', complaints=complaints)
 
-@app.route('/delete/<int:id>')
+@app.route('/delete/<int:id>')                  #Delete complaints route
 def delete(id):
     complaint=Complaint.query.filter_by(id=id).first()
     db.session.delete(complaint)
     db.session.commit()
     return redirect("/complaints")
 
-@app.route('/delete_notification/<int:id>')
+@app.route('/delete_notification/<int:id>')         #Delete notificaions route
 def delete_notification(id):
     alert=Alert.query.filter_by(id=id).first()
     db.session.delete(alert)
     db.session.commit()
     return redirect("/notifications")
+
+@app.route('/delete_camera/<int:id>')               #Delete camera route
+def delete_camera(id):
+    camera=Camera.query.filter_by(id=id).first()
+    db.session.delete(camera)
+    db.session.commit()
+    return redirect("/manage_camera")
 
 @app.route('/video_feed/<int:cam_id>')
 def video_feed_generator(cam_id):

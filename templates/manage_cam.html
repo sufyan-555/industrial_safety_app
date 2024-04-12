@@ -30,8 +30,6 @@
                             <span>Camera ID</span>
                             <input type="text" name="Cam_id">
                         </div>
-                        <br>
-                        <br>
                         <div class="remember">
                             <label><input type="checkbox" name="fire">Fire</label>
                         </div>
@@ -47,34 +45,45 @@
                         <div class="inputBx">
                             <input type="submit" value="Submit" name="">
                         </div>
+                        <div class="present-cams">
+                            <h2>Present Cameras</h2>
+                            {% if cameras|length==0 %}
+                            <div class="alert alert-dark" role="alert">
+                                       no camera records!
+                            </div>
+                            {% else %}
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Camera ID</th>
+                                        <th>Fire Detection</th>
+                                        <th>Pose Alert</th>
+                                        <th>Restricted Zone</th>
+                                        <th>Safety Gear Detection</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for camera in cameras %}
+                                    <tr>
+                                        <td>{{ camera.cam_id }}</td>
+                                        <td>{{ "Yes" if camera.fire_detection else "No" }}</td>
+                                        <td>{{ "Yes" if camera.pose_alert else "No" }}</td>
+                                        <td>{{ "Yes" if camera.restricted_zone else "No" }}</td>
+                                        <td>{{ "Yes" if camera.safety_gear_detection else "No" }}</td>
+                                        <td>
+                                            <a href="/delete_camera/{{camera.id}}" type="button" class="btn btn-outline-dark btn-sm mx-1">Delete</button>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
                     </form>
                 </div>
-                <div class="present-cams">
-                    <h2>Present Cameras</h2>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Camera ID</th>
-                                <th>Fire Detection</th>
-                                <th>Pose Alert</th>
-                                <th>Restricted Zone</th>
-                                <th>Safety Gear Detection</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for camera in cameras %}
-                            <tr>
-                                <td>{{ camera.cam_id }}</td>
-                                <td>{{ "Yes" if camera.fire_detection else "No" }}</td>
-                                <td>{{ "Yes" if camera.pose_alert else "No" }}</td>
-                                <td>{{ "Yes" if camera.restricted_zone else "No" }}</td>
-                                <td>{{ "Yes" if camera.safety_gear_detection else "No" }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
             </div>
+           
         </section>
     </div>
 

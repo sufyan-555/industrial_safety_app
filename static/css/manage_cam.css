@@ -51,12 +51,12 @@ section .contentBx .formBx{
     width: 50%;
 }
 section .contentBx .formBx h2{
-    color: #607d8b;
+    color: rgb(16, 85, 94);  /*#607d8b;*/
     font-weight: 600;
     font-size: 1.5em;
     text-transform: uppercase;
     margin-bottom: 20px;
-    border-bottom: 4px solid #ff4584;
+    border-bottom: 4px solid rgb(61, 177, 193);         /*#ff4584;*/
     display: inline-block;
     letter-spacing: 1px;
 
@@ -92,7 +92,7 @@ section .contentBx .formBx .inputBx input{
 }
 section .contentBx .formBx .inputBx input[type="submit"]
 {
-    background:#ff4584;
+    background: rgb(10, 157, 176);      /*#ff4584;*/
     color: #fff;
     outline: none;
     border: none;
@@ -102,7 +102,7 @@ section .contentBx .formBx .inputBx input[type="submit"]
 }
 section .contentBx .formBx .inputBx input[type="submit"]:hover
 {
-    background:#f53677 ;
+    background:rgb(86, 225, 243);    /*#f53677 ;*/
 }
 .remember
 {
