@@ -1,14 +1,12 @@
 import cv2
 import base64
-from flask import Flask, render_template, Response,request,redirect
+from flask import Flask, render_template, Response,request,redirect,flash
 from datetime import datetime,timedelta
 from flask_sqlalchemy import SQLAlchemy
 
 from models.r_zone import people_detection
 from models.fire_detection import fire_detection
 from models.gear_detection import gear_detection
-
-
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///alerts.db'
@@ -100,6 +98,11 @@ def index():
 @app.route('/login')
 def login():
     return redirect('/dashboard')
+
+@app.route('/upload')           #routing for video upload
+def upload():
+    return render_template('VideoUpload.html')
+
 
 @app.route('/submit_complaint', methods=['POST'])
 def submit_complaint():

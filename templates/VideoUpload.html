@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Upload</title>
+  <link rel="stylesheet" type="text/css" href="/static/css/VideoUpload.css">
+  
+</head>
+<body>
+
+  <section class="upload">
+    <form action="" autocomplete="off" enctype="multipart/form-data">
+      <p>Upload File</p>
+      <div>
+        <input type="file" id="upload" style="display: none;">
+        <label for="upload">Select Files</label>
+      </div>
+      <button><span>&#8682; Upload</span><span class="uploading">Uploading...</span></button>
+      <button class="cancle">Cancel Upload</button>
+      <div class="pr">
+        <strong>
+          <h4 class="ex">PDF</h4>
+          <h5 class="size">2.5kb</h5>
+        </strong>
+        <progress min="0" max="100" value="0"></progress>
+        <span class="progress-indicator"></span>
+      </div>
+      
+  </form>
+  </section>
+
+
+</body>
+</html>
+<script type="text/javascript" src="/static/js/VideoUpload.js"></script>
