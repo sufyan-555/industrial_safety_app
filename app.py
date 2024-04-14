@@ -1,17 +1,26 @@
+import os
 import cv2
 import base64
 from flask import Flask, render_template, Response,request,redirect,flash
 from datetime import datetime,timedelta
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.utils import secure_filename
+
 
 from models.r_zone import people_detection
 from models.fire_detection import fire_detection
 from models.gear_detection import gear_detection
+from models.motion_amp import amp
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'the random string'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///alerts.db'
 app.config["SQLALCHEMY_BINDS"]={"complain":"sqlite:///complain.db",
                                 "cams":"sqlite:///cams.db"}
+
+
+app.config['UPLOAD_FOLDER'] = 'uploads'
+ALLOWED_EXTENSIONS = {"mp4"}
 
 db = SQLAlchemy(app)
 
@@ -58,7 +67,6 @@ def add_to_db(results,frame,alert_name):
                 db.session.add(new_alert)
                 db.session.commit()
 
-
 def process_frames(camid,region,flag_r_zone=False,flag_pose_alert=False,flag_fire=False,flag_gear=False):
     if  (len(camid)==1):
         camid=int(camid)
@@ -90,6 +98,8 @@ def process_frames(camid,region,flag_r_zone=False,flag_pose_alert=False,flag_fir
         frame_bytes = buffer.tobytes()
         yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
 
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/')
 def index():
@@ -103,6 +113,27 @@ def login():
 def upload():
     return render_template('VideoUpload.html')
 
+@app.route('/upload_file', methods=['POST'])
+def upload_file():
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            return redirect("/upload")
+        file = request.files['file']
+        if file.filename == '':
+            flash('No File Selected')
+            return redirect("/upload")
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            in_path=f"uploads/{filename}"
+            out_path=f"static/outs/{filename.split('.')[0]}.avi"
+            amp(in_path=in_path,out_path=out_path)
+            
+            flash(f"Your video has been processed and is available <a href='/{out_path}' target='_blank'>here</a>")
+            return redirect("/upload")
+        else:
+            flash("File in wrong Format!!")
+            return redirect("/upload")
 
 @app.route('/submit_complaint', methods=['POST'])
 def submit_complaint():

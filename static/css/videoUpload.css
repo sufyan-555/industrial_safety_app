@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins',sans-serif;
+}
+body
+{
+    background-color:  #37517e;
+}
+#content
+{
+    margin-top: 200px;
+}
+a
+{
+    text-decoration: none;
+    color: #11999e;
+  
+}
+a:hover
+{
+    color: #eaf6f6;
+}
+
+
+
+
+/* Style for the form label */
+.form-label {
+    /* font-size: 1.2rem; 
+    font-weight: bold; 
+    color: #333;  */
+    color:white;
+    font-weight: 600;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    border-bottom: 4px solid grey;
+    display: inline-block;
+    letter-spacing: 1px;
+    
+  }
+  #msg
+  {
+    margin-top: 20px;
+  }
+  /* Style for the form button */
+  .btn {
+    display: block; /* Make it a block element */
+    margin: 0 auto; /* Center it horizontally */
+    margin-top: 20px; /* Add some top margin */
+    width: 100%;
+    padding: 10px 20px;
+    outline: none;
+    font-weight: 400;
+    border: 1px solid #607d8b;
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: black;
+    background: transparent;
+    border-radius: 30px;
+    background-color: white
+  }
+  
+  /* Optional: Style for the container */
+  .container {
+    max-width: 600px; /* Limit container width */
+    margin: 0 auto; /* Center container horizontally */
+  }
+
+
+  
+  

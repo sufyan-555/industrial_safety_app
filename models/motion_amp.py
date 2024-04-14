@@ -8,15 +8,15 @@ def process_frame(frame, buffer, alpha, beta):
     output_frame = np.clip(output_frame, 0, 255)
     return output_frame.astype(np.uint8)
 
-def amp(path,alpha,beta,m):
-    cap = cv2.VideoCapture(path)       
+def amp(in_path,out_path,alpha=2,beta=0.7,m=5):
+    cap = cv2.VideoCapture(in_path)       
     buffer = []
 
     fps = int(cap.get(cv2.CAP_PROP_FPS))
     frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
-    out = cv2.VideoWriter('/motion_out/motion_output.avi', fourcc, fps, (frame_width, frame_height))
+    out = cv2.VideoWriter(out_path, fourcc, fps, (frame_width, frame_height))
 
     while cap.isOpened():
         ret, frame = cap.read()
@@ -35,10 +35,6 @@ def amp(path,alpha,beta,m):
         
         buffer.pop(0)
         buffer.append(frame)
-        
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-
     cap.release()
     out.release()
     return(True)
