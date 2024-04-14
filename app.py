@@ -127,7 +127,6 @@ def upload_file():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             in_path=f"uploads/{filename}"
             out_path=f"static/outs/{filename.split('.')[0]}.avi"
-            print(in_path,out_path)
             amp(in_path=in_path,out_path=out_path)
             
             flash(f"Your image has been processed and is available <a href='/{out_path}' target='_blank'>here</a>")
