@@ -68,11 +68,16 @@ def add_to_db(results,frame,alert_name):
                 db.session.commit()
 
 def process_frames(camid,region,flag_r_zone=False,flag_pose_alert=False,flag_fire=False,flag_gear=False):
+    print(camid,"hello")
     if  (len(camid)==1):
         camid=int(camid)
-    
-    cap=cv2.VideoCapture(camid)
-    ret=True
+        cap=cv2.VideoCapture(camid)
+        ret=True
+    else:
+        address=f"http://{camid}/video"
+        print(address)
+        cap=cv2.VideoCapture(0)
+        cap.open(address)
     
     while(True):
         ret,frame=cap.read()
@@ -155,7 +160,6 @@ def submit_complaint():
 @app.route('/dashboard')
 def dash_page():
     cameras = Camera.query.all()
-    print(cameras)
     return render_template('dash.html',cameras=cameras)
 
 @app.route("/manage_camera")
@@ -230,7 +234,7 @@ def delete_camera(id):
     db.session.commit()
     return redirect("/manage_camera")
 
-@app.route('/video_feed/<int:cam_id>')
+@app.route('/video_feed/<string:cam_id>')
 def video_feed_generator(cam_id):
     camera = Camera.query.filter_by(cam_id=str(cam_id)).first()
     if camera:

@@ -19,7 +19,7 @@
             <div class="text-center">
                 <div id="live-feeds">
                     {% for camera in cameras %}
-                        <h2>Camera:{{ camera.cam_id }}</h2>
+                        <h2>Camera:  {{ camera.cam_id }}</h2>
                         <iframe src="/video_feed/{{ camera.cam_id }}" width="1000" height="500"></iframe>
                     {% endfor %}
                 </div>
