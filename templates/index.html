@@ -58,9 +58,6 @@
           <div class="d-flex justify-content-center justify-content-lg-start">
             <a href="/upload" class="btn-get-started scrollto">Ampilify Motion</a>
           </div>
-          <div class="d-flex justify-content-center justify-content-lg-start">
-            <a href="#formpart" class="btn-get-started scrollto">Raise Complain</a>
-          </div>
         </div>
         <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
           <img src="/static/img/index_bg.png" class="img-fluid animated" alt="">
@@ -72,46 +69,6 @@
 
   <main id="main">
 
-      <!--Form Part started -->
-      <section id="formpart" class="formpart">
-        <div class="container mt-5">
-          <h1 class="text-center mb-4">Raise Your Complain</h1>
-          <div class="row justify-content-center">
-            <div class="col-md-6">
-              <form action="/submit_complaint" method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                  <label for="fullName">Full Name</label>
-                  <input type="text" class="form-control" id="fullName" name="fullName"
-                    placeholder="Enter your full name">
-                </div>
-                <div class="form-group">
-                  <label for="email">Email address</label>
-                  <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
-                    placeholder="Enter email">
-                </div>
-                <div class="form-group">
-                  <label for="alertType">Select the alert type</label>
-                  <select class="form-control" id="alertType" name="alertType">
-                    <option value="Report an Alert">Report an Alert</option>
-                    <option value="Normal Complaint">Normal Complaint</option>
-                    <option value="Harassment reporting">Harassment reporting</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="description">Elaborate your Concern</label>
-                  <textarea class="form-control" id="description" name="description" rows="3"
-                    placeholder="Share your Concern"></textarea>
-                </div>
-                <div class="form-group">
-                  <label for="file">Upload file</label>
-                  <input type="file" class="form-control-file" id="file" name="file">
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </section>
 
 
       <!--Form Part ended-->

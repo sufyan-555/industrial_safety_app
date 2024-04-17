@@ -149,9 +149,9 @@ def upload_file():
             return redirect("/upload")
 
 
-@app.route('/submit_complaint', methods=['POST'])
+@app.route('/<int:id>/submit_complaint', methods=['POST'])
 @login_required
-def submit_complaint():
+def submit_complaint(id):
     if request.method == 'POST':
         full_name = request.form['fullName']
         email = request.form['email']
@@ -161,7 +161,7 @@ def submit_complaint():
 
         # Create a new complaint associated with the logged-in user
         complaint = Complaint(full_name=full_name, email=email, alert_type=alert_type, description=description,
-                              file_data=file_data, user_id=current_user.id)
+                              file_data=file_data, user_id=id)
         db.session.add(complaint)
         db.session.commit()
 
@@ -229,7 +229,12 @@ def complaints():
         if complaint.file_data:
             # Convert binary file data to base64 for displaying in HTML
             complaint.file_data = base64.b64encode(complaint.file_data).decode('utf-8')
-    return render_template('complaints.html', complaints=complaints)
+    return render_template('complaints.html', complaints=complaints,user=current_user)
+
+@app.route("/complain/<int:id>")
+def complain_form(id):
+    return render_template("complain_form.html",user = User.query.filter_by(id=id).first())
+
 
 @app.route('/delete/<int:id>')                  
 @login_required

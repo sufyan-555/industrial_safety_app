@@ -21,7 +21,7 @@
         <!--Add your code here-->
             <div class="container">
                 <h1>All Complaints</h1>
-
+                <a href="/complain/{{user.id}}" type="button" class="btn btn-outline-dark btn-sm mx-1">View Comlain form</button>
 
                 {% if complaints|length==0 %}
                 <div class="alert alert-dark" role="alert">
