@@ -21,8 +21,13 @@
         <!--Add your code here-->
             <div class="container">
                 <h1>All Complaints</h1>
-                <a href="/complain/{{user.id}}" type="button" class="btn btn-outline-dark btn-sm mx-1">View Comlain form</button>
-
+              
+                <!-- <a href="/complain/{{user.id}}" type="button" class="btn btn-outline-dark btn-sm mx-1">View Complain form</button> -->
+               
+                
+                
+           
+              
                 {% if complaints|length==0 %}
                 <div class="alert alert-dark" role="alert">
                         No complaints Found!!
@@ -57,9 +62,9 @@
                                 No File Attached
                                 {% endif %}
                             </td>
-                            <td>
+                            <!-- <td>
                                 <a href="/delete/{{complaint.id}}" type="button" class="btn btn-outline-dark btn-sm mx-1">Delete</button>
-                            </td>
+                            </td> -->
                             
                         </tr>
                         {% endfor %}
