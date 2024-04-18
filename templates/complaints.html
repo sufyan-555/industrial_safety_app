@@ -19,52 +19,53 @@
     <div class="wrapper">
         {% include 'sidebar.html' %}
         <!--Add your code here-->
-            <div class="container">
-                <h1>All Complaints</h1>
-                <a href="/complain/{{user.id}}" type="button" class="btn btn-outline-dark btn-sm mx-1">View Comlain form</button>
-
-                {% if complaints|length==0 %}
-                <div class="alert alert-dark" role="alert">
-                        No complaints Found!!
-                </div>
-                {% else %}
-                <div class="row">
-                    <div class="col-12">
-                        <table class="table table-image">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Sno.</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Alert Type</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">File</th>
-                                    <th scope="col">Actions</th>
-                                </tr>
-                            </thead>
+        <div class="container">
+            <h1>All Complaints</h1>
+            <p>Share <a href="/complain/{{user.id}}" target="_blank">this</a> form in your organization</p>
+            {% if complaints|length==0 %}
+            <div class="alert alert-dark" role="alert">
+                No complaints Found!!
+            </div>
+            {% else %}
+            <div class="row">
+                <div class="col-12">
+                    <table class="table table-image">
+                        <thead>
+                            <tr>
+                                <th scope="col">Sno.</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Alert Type</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">File</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
                         <tbody>
-                        {% for complaint in complaints %}
-                        <tr>
-                            <th scope="row">{{loop.index}}</th>
-                            <td>{{ complaint.full_name }}</td>
-                            <td>{{ complaint.email }}</td>
-                            <td>{{ complaint.alert_type }}</td>
-                            <td>{{ complaint.description }}</td>
-                            <td>
-                                {% if complaint.file_data %}
-                                <img src="data:image/jpeg;base64,{{ complaint.file_data }}" class="img-fluid img-thumbnail" alt="Complaint File">
-                                {% else %}
-                                No File Attached
-                                {% endif %}
-                            </td>
-                            <td>
-                                <a href="/delete/{{complaint.id}}" type="button" class="btn btn-outline-dark btn-sm mx-1">Delete</button>
-                            </td>
-                            
-                        </tr>
-                        {% endfor %}
-                        {% endif %}
-                    </tbody>
+                            {% for complaint in complaints %}
+                            <tr>
+                                <th scope="row">{{loop.index}}</th>
+                                <td>{{ complaint.full_name }}</td>
+                                <td>{{ complaint.email }}</td>
+                                <td>{{ complaint.alert_type }}</td>
+                                <td>{{ complaint.description }}</td>
+                                <td>
+                                    {% if complaint.file_data %}
+                                    <img src="data:image/jpeg;base64,{{ complaint.file_data }}"
+                                        class="img-fluid img-thumbnail" alt="Complaint File">
+                                    {% else %}
+                                    No File Attached
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="/delete/{{complaint.id}}" type="button"
+                                        class="btn btn-outline-dark btn-sm mx-1">Delete</button>
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+                            {% endif %}
+                        </tbody>
                     </table>
                 </div>
             </div>
