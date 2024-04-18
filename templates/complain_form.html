@@ -13,13 +13,13 @@
 </head>
 
 <body>
-    <h1>{{user.username}}</h1>
+    <h1>{{username}}</h1>
     <section id="formpart" class="formpart">
         <div class="container mt-5">
           <h1 class="text-center mb-4">Raise Your Complain</h1>
           <div class="row justify-content-center">
             <div class="col-md-6">
-              <form action="/{{user.id}}/submit_complaint" method="post" enctype="multipart/form-data">
+              <form action="/{{id}}/submit_complaint" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                   <label for="fullName">Full Name</label>
                   <input type="text" class="form-control" id="fullName" name="fullName"

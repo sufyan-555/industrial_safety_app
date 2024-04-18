@@ -87,6 +87,10 @@ def login():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
+
+        if(not email or not password):
+            flash('Email or Password Missing!!')
+            return redirect('/login')
         
         user = User.query.filter_by(email=email).first()
         
@@ -149,8 +153,7 @@ def upload_file():
             return redirect("/upload")
 
 
-@app.route('/<int:id>/submit_complaint', methods=['POST'])
-@login_required
+@app.route('/<int:id>/submit_complaint', methods=['POST','GET'])
 def submit_complaint(id):
     if request.method == 'POST':
         full_name = request.form['fullName']
@@ -164,8 +167,8 @@ def submit_complaint(id):
                               file_data=file_data, user_id=id)
         db.session.add(complaint)
         db.session.commit()
-
-        return redirect('/')
+        link=f'/complain/{id}'
+        return redirect(link)
 
 @app.route('/dashboard')
 @login_required
@@ -233,7 +236,8 @@ def complaints():
 
 @app.route("/complain/<int:id>")
 def complain_form(id):
-    return render_template("complain_form.html",user = User.query.filter_by(id=id).first())
+    user = User.query.filter_by(id=id).first()
+    return render_template("complain_form.html",username=user.username,id=user.id)
 
 
 @app.route('/delete/<int:id>')                  
