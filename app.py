@@ -10,6 +10,7 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 from models.r_zone import people_detection
 from models.fire_detection import fire_detection
 from models.gear_detection import gear_detection
+from models.alert import alert
 from models.motion_amp import amp
 
 app = Flask(__name__)
@@ -293,7 +294,6 @@ def video_feed(cam_id):
         return "Camera details not found."
 
 def process_frames(camid, region, flag_r_zone=False, flag_pose_alert=False, flag_fire=False, flag_gear=False, user_id=None):
-    print(camid,"hello")
     if len(camid) == 1:
         camid = int(camid)
         cap = cv2.VideoCapture(camid)
@@ -322,6 +322,10 @@ def process_frames(camid, region, flag_r_zone=False, flag_pose_alert=False, flag
         # gear detection
         results = gear_det.process(img=frame, flag=flag_gear)
         add_to_db(results=results, frame=frame, alert_name="gear_detection", user_id=user_id)
+
+        #alert
+        results=alert(frame=frame,flag=flag_pose_alert)
+        add_to_db(results=results,frame=frame,alert_name="Pose Alert",user_id=user_id)
 
         _, buffer = cv2.imencode('.jpg', frame)
         frame_bytes = buffer.tobytes()

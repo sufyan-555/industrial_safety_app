@@ -31,7 +31,9 @@ def calculateangle(landmark1, landmark2, landmark3):
 
 
 
-def alert(frame):
+def alert(frame,flag=True):
+    if not flag:
+        return [False,[]]
     try:
         frame, landmarks = detectpose(frame)
 
