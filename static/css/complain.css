@@ -1,0 +1,74 @@
+
+/* form decoration and style */
+body
+{
+    background-image: url(/static/img/complain1.jpg);
+}
+.form-control {
+  border-radius: 20px !important;
+}
+
+/* Style form select dropdown */
+.select {
+  border-radius: 20px !
+}
+
+.form-group label {
+  color: #062a3b; /* Form label color */
+  font-size: 16px;
+  font-weight: bolder;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+.form-control {
+  border-color: #ced4da; /* Form input border color */
+}
+.form-control:focus {
+  border-color: #007bff; /* Form input border color on focus */
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Form input focus effect */
+}
+
+.input-group-text
+{
+  font-size: 15px;
+  background-color: #2a5976;
+  color: white;
+  margin-right: 6px;
+  cursor: pointer;
+  border-radius: 16px;
+
+}
+
+.text-center {
+
+  /* Other existing styles */
+  text-align: center;
+  font-size: 2.3rem;
+  margin-bottom: 2rem;
+  font-weight: bolder;
+  text-transform: uppercase;
+    color: rgb(16, 85, 94);  /*#607d8b;*/
+    letter-spacing: 1px;
+}
+
+
+/* Submit button style */
+.btn {
+background-color: #37517e; /* Button color */
+border: none; /* Remove button border */
+padding: 10px 20px; /* Add padding to the button */
+font-weight: bolder;
+width: 100%;
+color: #fff; /* Text color */
+
+}
+
+.btn:hover {
+background-color: rgb(227, 255, 255); /* Darker color on hover */
+color: #000; /* Text color on hover */
+}
+
+
+
+
+/* form style ended */
