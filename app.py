@@ -169,6 +169,7 @@ def submit_complaint(id):
         db.session.add(complaint)
         db.session.commit()
         link=f'/complain/{id}'
+        flash("Your Complaint has been recorded, We'll get back to you soon.")
         return redirect(link)
 
 @app.route('/dashboard')

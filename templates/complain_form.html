@@ -27,6 +27,20 @@
 
 <body>
   <div class="container">
+    <div id="msg" class="container my-4">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+
+      {% for category, message in messages %}
+      <div class="alert alert-primary alert-dismissible fade show" role="alert">
+          <strong>Message!</strong> {{ message | safe}}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endfor %}
+
+      {% endif %}
+      {% endwith %}
+  </div>
     <div class="row justify-content-end">
       <div class="col-md-6">
         <section id="formpart" class="formpart">
