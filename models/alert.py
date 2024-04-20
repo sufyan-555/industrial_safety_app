@@ -53,6 +53,11 @@ def alert(frame,flag=True):
         return [False,[]]
     except:
        return [False,[]]
+
+
+
+
+    
     
 # """camera_video = cv2.VideoCapture(0)
 # while camera_video.isOpened():
