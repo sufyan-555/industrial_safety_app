@@ -144,10 +144,12 @@ def upload_file():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             in_path=f"uploads/{filename}"
-            out_path=f"static/outs/{filename.split('.')[0]}.avi"
+            out_path=f"static/outs/output.avi"
             flash("File uploded..")
             flash("Processing")
+            os.remove(out_path)
             amp(in_path=in_path,out_path=out_path,alpha=2.5,beta=0.5,m=3)
+            os.remove(in_path)
             
             flash(f"Your processed video is available <a href='/{out_path}' target='_blank'>here</a>")
             return redirect("/upload")
@@ -296,6 +298,21 @@ def video_feed(cam_id):
     else:
         return "Camera details not found."
 
+def add_to_db(results, frame, alert_name, user_id=None):
+    if results[0]:
+        for box in results[1]:
+            x1, y1, x2, y2 = box
+            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)
+
+        with app.app_context():
+            latest_alert = Alert.query.filter_by(alert_type=alert_name, user_id=user_id).order_by(Alert.date_time.desc()).first()
+
+            if (latest_alert is None) or ((datetime.now() - latest_alert.date_time) > timedelta(minutes=1)):
+                new_alert = Alert(date_time=datetime.now(), alert_type=alert_name, frame_snapshot=cv2.imencode('.jpg', frame)[1].tobytes(), user_id=user_id)
+                db.session.add(new_alert)
+                db.session.commit()
+
+
 def process_frames(camid, region, flag_r_zone=False, flag_pose_alert=False, flag_fire=False, flag_gear=False, user_id=None):
     if len(camid) == 1:
         camid = int(camid)
@@ -333,21 +350,6 @@ def process_frames(camid, region, flag_r_zone=False, flag_pose_alert=False, flag
         _, buffer = cv2.imencode('.jpg', frame)
         frame_bytes = buffer.tobytes()
         yield (b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
-
-def add_to_db(results, frame, alert_name, user_id=None):
-    if results[0]:
-        for box in results[1]:
-            x1, y1, x2, y2 = box
-            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)
-
-        with app.app_context():
-            latest_alert = Alert.query.filter_by(alert_type=alert_name, user_id=user_id).order_by(Alert.date_time.desc()).first()
-
-            if (latest_alert is None) or ((datetime.now() - latest_alert.date_time) > timedelta(minutes=1)):
-                new_alert = Alert(date_time=datetime.now(), alert_type=alert_name, frame_snapshot=cv2.imencode('.jpg', frame)[1].tobytes(), user_id=user_id)
-                db.session.add(new_alert)
-                db.session.commit()
-
 
 
 if __name__ == "__main__":
