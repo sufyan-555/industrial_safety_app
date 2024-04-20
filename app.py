@@ -64,7 +64,7 @@ class Complaint(db.Model):  # Complaint table
     file_data = db.Column(db.LargeBinary)
 
 r_zone=people_detection("models/yolov8n.pt")
-fire_det=fire_detection("models/fire.pt",conf=0.5)
+fire_det=fire_detection("models/fire.pt",conf=0.60)
 gear_det=gear_detection("models/gear.pt")
 
 
@@ -145,8 +145,6 @@ def upload_file():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             in_path=f"uploads/{filename}"
             out_path=f"static/outs/output.avi"
-            flash("File uploded..")
-            flash("Processing")
             os.remove(out_path)
             amp(in_path=in_path,out_path=out_path,alpha=2.5,beta=0.5,m=3)
             os.remove(in_path)
@@ -352,5 +350,6 @@ def process_frames(camid, region, flag_r_zone=False, flag_pose_alert=False, flag
         yield (b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
 
 
-
+if __name__=="__main__":
+    app.run(debug=True)
 
