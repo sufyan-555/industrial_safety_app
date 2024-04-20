@@ -3,6 +3,26 @@
 
 /* Customize navbar background color */
 /* style.css */
+@import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
+
+.hero-img {
+  position: relative; /* Set the position to relative */
+  top: 30px; /* Adjust the top offset as needed */
+
+}
+
+p
+{
+  font-size: 16px;
+  margin-bottom: 5px;
+  display: inline-block;
+  color: #4f6b79;
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+
 
 /* Style form input fields */
 .form-control {
@@ -175,7 +195,7 @@ h6 {
 }
 
 #header .logo {
-  font-size: 30px;
+  font-size: 32px;
   margin: 0;
   padding: 0;
   line-height: 1;
@@ -211,6 +231,7 @@ h6 {
 
 .navbar li {
   position: relative;
+ 
 }
 
 .navbar a,
@@ -219,7 +240,7 @@ h6 {
   align-items: center;
   justify-content: space-between;
   padding: 10px 0 10px 30px;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
   color: #fff;
   white-space: nowrap;
