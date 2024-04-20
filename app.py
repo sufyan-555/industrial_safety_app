@@ -352,6 +352,5 @@ def process_frames(camid, region, flag_r_zone=False, flag_pose_alert=False, flag
         yield (b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
 
 
-if __name__ == "__main__":
-    app.run(debug=True,port=8000)
+
 
