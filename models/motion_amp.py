@@ -8,7 +8,7 @@ def process_frame(frame, buffer, alpha, beta):
     output_frame = np.clip(output_frame, 0, 255)
     return output_frame.astype(np.uint8)
 
-def amp(in_path,out_path,alpha=2,beta=0.7,m=5):
+def amp(in_path,out_path,alpha=2.5,beta=0.7,m=5):
     cap = cv2.VideoCapture(in_path)       
     buffer = []
 

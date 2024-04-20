@@ -4,7 +4,7 @@
 
 body
 {
-    background-image: linear-gradient(rgba(124, 119, 119, 0.7),#e9ebf4),url(/static/img/complain1.jpg);
+    background-image:url(/static/img/complain1.jpg);
     background-size: cover;
     background-position: center;
     opacity: 1.5;
