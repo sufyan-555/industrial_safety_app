@@ -309,7 +309,7 @@ def process_frames(camid, region, flag_r_zone=False, flag_pose_alert=False, flag
         if not ret:
             break
 
-        frame = cv2.resize(frame, (800, 400))
+        frame = cv2.resize(frame, (1000, 500))
 
         # frame processing for restricted Zone
         results = r_zone.process(img=frame, region=region, flag=flag_r_zone)
